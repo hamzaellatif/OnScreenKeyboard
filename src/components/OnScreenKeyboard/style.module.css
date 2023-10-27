@@ -1,0 +1,47 @@
+/* OnScreenKeyboard.module.css */
+.keyboard {
+    margin-top: 15px;
+    padding-top: 15px;
+    height: 100%;
+    user-select: none;
+    cursor: pointer;
+    border-top: solid 2px; /* Keep .hd_ready styles */
+}
+
+table {
+    margin: auto;
+}
+
+.key {
+    position: relative;
+    width: 35px;
+    padding: 2px;
+    text-align: center;
+    border: gray solid 1px; /* Keep .hd_ready styles */
+}
+
+.key:hover,.key:focus{
+    background-color: white;
+    color: black;
+}
+
+.isHidden{
+    display: none;
+}
+
+.buttons {
+    width: 90px; /* Keep .hd_ready styles */
+}
+
+.key.block {
+    width: 0;
+    padding: 0;
+}
+
+.key.buttons.activeLayout {
+    background-color: #4f4e4e;
+}
+
+.key.empty {
+    background-color: transparent;
+}
