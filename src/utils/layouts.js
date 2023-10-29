@@ -1,0 +1,197 @@
+import {initKey} from './helpers';
+
+export const latin = [
+{
+    idx: 0,
+    keys: [initKey(0, "abc", "latin", "changeLayout", 1, "buttons"),
+           initKey(1, "1"),
+           initKey(2, "2"),
+           initKey(3, "3"),
+           initKey(4, "4"),
+           initKey(5, "5"),
+           initKey(6, "6"),
+           initKey(7, "7"),
+           initKey(8, "8"),
+           initKey(9, "9"),
+           initKey(10, "0"),
+           initKey(11, "Clear", null, "clearSentence", 2)]
+},
+{
+    idx: 1,
+    keys: [initKey(0, "", "", null, 1),
+           initKey(1, "a"),
+           initKey(2, "b"),
+           initKey(3, "c"),
+           initKey(4, "d"),
+           initKey(5, "e"),
+           initKey(6, "f"),
+           initKey(7, "g"),
+           initKey(8, "h"),
+           initKey(9, "i"),
+           initKey(10, "j"),
+           initKey(11, "Left", null, "cursorLeft"),
+           initKey(12, "Right", null, "cursorRight")]
+},
+{
+    idx: 2,
+    keys: [initKey(0, "@#!", "specialChars1", "changeLayout", 1, "buttons"),
+           initKey(2, "k"),
+           initKey(3, "l"),
+           initKey(4, "m"),
+           initKey(5, "n"),
+           initKey(6, "o"),
+           initKey(7, "p"),
+           initKey(8, "q"),
+           initKey(9, "r"),
+           initKey(10, "s"),
+           initKey(11, "t"),
+           initKey(12, "Space", "\xa0"),
+           initKey(13, "Delete", null, "eraseChar")]
+},
+{
+    idx: 3,
+    keys: [initKey(0, "ABC", "uppercase", "changeLayout", 1, "buttons"),
+           initKey(2, "u"),
+           initKey(3, "v"),
+           initKey(4, "w"),
+           initKey(5, "x"),
+           initKey(6, "y"),
+           initKey(7, "z"),
+           initKey(8, "_"),
+           initKey(9, "-"),
+           initKey(10, "@"),
+           initKey(11, "."),
+           initKey(12, "OK", null, "confirm", 2)]
+}
+];
+
+
+export const upperCase = [
+    {
+        idx: 0,
+        keys: [initKey(0, "abc", "latin", "changeLayout", 1, "buttons"),
+            initKey(1, "1"),
+            initKey(2, "2"),
+            initKey(3, "3"),
+            initKey(4, "4"),
+            initKey(5, "5"),
+            initKey(6, "6"),
+            initKey(7, "7"),
+            initKey(8, "8"),
+            initKey(9, "9"),
+            initKey(10, "0"),
+            initKey(11, "Clear", null, "clearSentence", 2)]
+    },
+    {
+        idx: 1,
+        keys: [initKey(0, "", "", null, 1),
+            initKey(1, "A"),
+            initKey(2, "B"),
+            initKey(3, "C"),
+            initKey(4, "D"),
+            initKey(5, "E"),
+            initKey(6, "F"),
+            initKey(7, "G"),
+            initKey(8, "H"),
+            initKey(9, "I"),
+            initKey(10, "J"),
+            initKey(11, "Left", null, "cursorLeft"),
+            initKey(12, "Right", null, "cursorRight")]
+    },
+    {
+        idx: 2,
+        keys: [initKey(0, "@#!", "specialChars1", "changeLayout", 1, "buttons"),
+            initKey(1, "K"),
+            initKey(2, "L"),
+            initKey(3, "M"),
+            initKey(4, "N"),
+            initKey(5, "O"),
+            initKey(6, "P"),
+            initKey(7, "Q"),
+            initKey(8, "R"),
+            initKey(9, "S"),
+            initKey(10, "T"),
+            initKey(11, "Space", "\xa0"),
+            initKey(12, "Delete", null, "eraseChar")]
+    },
+    {
+        idx: 3,
+        keys: [initKey(0, "ABC", "uppercase", "changeLayout", 1, "buttons"),
+            initKey(1, "U"),
+            initKey(2, "V"),
+            initKey(3, "W"),
+            initKey(4, "X"),
+            initKey(5, "Y"),
+            initKey(6, "Z"),
+            initKey(7, "_"),
+            initKey(8, "-"),
+            initKey(9, "@"),
+            initKey(10, "."),
+            initKey(11, "", null, null, 1, "empty"),
+            initKey(12, "OK", null, "confirm", 2)]
+    }
+];
+
+export const specialChars1 = [
+    {
+        idx: 0,
+        keys: [initKey(0, "abc", "latin", "changeLayout", 1, "buttons"),
+            initKey(1, "1"),
+            initKey(2, "2"),
+            initKey(3, "3"),
+            initKey(4, "4"),
+            initKey(5, "5"),
+            initKey(6, "6"),
+            initKey(7, "7"),
+            initKey(8, "8"),
+            initKey(9, "9"),
+            initKey(10, "0"),
+            initKey(11, "Clear", null, "clearSentence", 2)]
+    },
+    {
+        idx: 1,
+        keys: [initKey(0, "", "", null, 1),
+            initKey(1, "@"),
+            initKey(2, "#"),
+            initKey(3, "€"),
+            initKey(4, "$"),
+            initKey(5, "_"),
+            initKey(6, "&"),
+            initKey(7, "-"),
+            initKey(8, "+"),
+            initKey(9, "("),
+            initKey(10, ")"),
+            initKey(11, "Left", null, "cursorLeft"),
+            initKey(12, "Right", null, "cursorRight")]
+    },
+    {
+        idx: 2,
+        keys: [initKey(0, "@#!", "specialChars1", "changeLayout", 1, "buttons"),
+            initKey(1, "/"),
+            initKey(2, "*"),
+            initKey(3, "\""),
+            initKey(4, "'"),
+            initKey(5, ":"),
+            initKey(6, ";"),
+            initKey(7, ","),
+            initKey(8, "."),
+            initKey(9, "!"),
+            initKey(10, "?"),
+            initKey(11, "Space", "\xa0"),
+            initKey(12, "Delete", null, "eraseChar")]
+    },
+    {
+        idx: 3,
+        keys: [initKey(0, "ABC", "uppercase", "changeLayout", 1, "buttons"),
+            initKey(1, "", null, null, 1, "empty"),
+            initKey(2, "", null, null, 1, "empty"),
+            initKey(3, "", null, null, 1, "empty"),
+            initKey(4, "", null, null, 1, "empty"),
+            initKey(5, "", null, null, 1, "empty"),
+            initKey(6, "", null, null, 1, "empty"),
+            initKey(7, "", null, null, 1, "empty"),
+            initKey(8, "", null, null, 1, "empty"),
+            initKey(9, "", null, null, 1, "empty"),
+            initKey(11, "OK", null, "confirm", 2)]
+    }
+];

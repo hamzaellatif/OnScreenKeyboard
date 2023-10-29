@@ -45,3 +45,8 @@ table {
 .key.empty {
     background-color: transparent;
 }
+
+.activeLayout{
+    background-color: #4f4e4e;
+    color: #09e309;
+}

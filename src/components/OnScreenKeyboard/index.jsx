@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import styles from './style.module.css'
-import PropTypes from 'prop-types';
-import {keyboardKeys} from '../../utils/data';
+import {latin, upperCase, specialChars1} from '../../utils/layouts';
 import cn from 'classnames';
 
-function OnScreenKeyboard({methods,visiblity}) {
+function OnScreenKeyboard({ methods, input }) {
     const [currentKey, setCurrentKey] = useState('');
-    const [getSentence, setSentence] = useState('');
+    const [layout, setLayout] = useState({name: 'latin', keys: latin});
+    const [sentence, setSentence] = useState('');
     const [caretPosition, setCaretPosition] = useState(0);
     const [firstPart, setFirstPart] = useState('');
     const [secondPart, setSecondPart] = useState('');
-    const [visible, setVisible] = useState(visiblity);
+    const [visibility, setVisibility] = useState(false);
     
+    const incPosition = () => {
+        setCaretPosition((prevCaretPosition) => prevCaretPosition + 1);
+    };
+
+    const decPosition = () => {
+        setCaretPosition((prevCaretPosition) => prevCaretPosition - 1);
+    };
+
+    const syncPosition = (content) => {
+        if(content.length>0)
+        setCaretPosition((content.length + 1));
+    }
     /******************* Navigation ******************* */
     const cursorLeft = () => {
         if (caretPosition > 0) {
@@ -20,19 +32,18 @@ function OnScreenKeyboard({methods,visiblity}) {
     }
 
     const cursorRight = () => {
-        if (caretPosition <= getSentence.length) {
+        if (caretPosition <= sentence.length) {
             incPosition();
         }
     }
-    /******************* Click ******************* */
+    /******************* keyboard clicks ******************* */
+    // virtual keyboard
     const onclick = (key,rowIndex,keyIndex) => {
         let current = "r"+rowIndex+"c"+keyIndex;
         setCurrentKey(current);
         switch(key.method){
             case "print":
-                const character = key.value === "Space" ? key.text : key.value;
-                setFirstPart((prevPart)=> prevPart + character);
-                cursorRight();
+                addCharacter(key);
             break;
             case "cursorLeft":
                 cursorLeft();
@@ -52,74 +63,131 @@ function OnScreenKeyboard({methods,visiblity}) {
                 methods.confirm();
                 clearSentence();
             break;
+            case "changeLayout":
+                switch(key.text){
+                    case "latin":
+                    case "default":
+                        setLayout({name: key.text,keys: latin});
+                    break;
+                    case "uppercase":
+                        setLayout({name: key.text,keys: upperCase});
+                    break;
+                    case "specialChars1":
+                        setLayout({name: key.text,keys: specialChars1});
+                    break;
+                }
+            break;
+            default:
+                console.log("Unmanaged vkey",key.method);
+            break;
         }
     }
+    
+    const isAlphabets = (charCode) => { return (charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123);  }
+    const isDigits = (charCode) => { return (charCode >= 48 && charCode <= 57) };
+    const isBackSpace = (charCode) => { return (charCode === 8) };
+    const isEnterOrTab = (charCode) => { return (charCode === 13 || charCode === 9) };
+    const isNavigationKeys = (charCode) => { return (charCode === 37 || charCode === 39); }
+    
+    // physical keyboard
+    useEffect(() => {
+        const handleKeyDown = (evt) => {
+            evt.preventDefault();
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (isAlphabets(charCode) || isDigits(charCode)) {
+                addCharacter({value: evt.key,text: evt.key});
+            } else if (isBackSpace(charCode)) {
+                setFirstPart((prevSentence) => prevSentence.slice(0, -1));
+                cursorLeft();
+            } else if (isEnterOrTab(charCode)) {
+                methods.confirm();
+            }else if(isNavigationKeys(charCode)){
+                charCode === 37 ? cursorLeft() : cursorRight();
+                sliceSentence();
+            }else {
+                console.log('unmanaged key yet', charCode);
+            }
+        };
+        
+        document.addEventListener('keydown', handleKeyDown);
+    
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
 
-    const setText = (text) => {
-        setSentence(text);
+    const addCharacter = (key) => {
+        const character = key.value === "Space" ? key.text : key.value;
+        setFirstPart((prevPart)=> prevPart + character);
+        cursorRight();
+    }
+
+    const addPhrase = (content) => {
+        setFirstPart((prevPart)=> prevPart + content);
+        syncPosition(content);
     }
 
     const removeCharacter = () => {
         let newphrase = firstPart.substr(0, firstPart.length - 1);
         let newSentence = (newphrase + secondPart);
         setFirstPart(newphrase);
-        setText(newSentence);
+        setSentence(newSentence);
         cursorLeft();
     }
 
     const clearSentence = () => {
         setCaretPosition(0);
         setFirstPart("");
-        setText("");
+        setSentence("");
         setSecondPart("");
     }
 
-    const incPosition = () => {
-        setCaretPosition((prevCaretPosition) => ++prevCaretPosition);
-    };
+    const sliceSentence = () => {
+        setFirstPart(sentence.slice(0, caretPosition));
+        setSecondPart(sentence.slice(caretPosition));
+    }
 
-    const decPosition = () => {
-        setCaretPosition(caretPosition - 1);
-    };
+    const toggleKeyboard = () => {
+        setVisibility(!visibility);
+    }
 
+    /******************* useEffects ******************* */
     useEffect(()=>{
         if(firstPart !== ""){
-            let newSentence = firstPart + secondPart;
-            setText(newSentence);
+            setSentence((firstPart + secondPart));
         }
         methods.print({first: firstPart,second: secondPart});
     },[firstPart]);
 
-    const sliceSentence = () => {
-        setFirstPart(getSentence.slice(0, caretPosition));
-        setSecondPart(getSentence.slice(caretPosition));
-    }
-
-    const toggleKeyboard = () => {
-        setVisible(!visible);
-        methods.toggleKeyboard();
-    }
+    useEffect(() => {
+        clearSentence();
+        if(input === "txtusername" || input === "txtpassword"){
+            let content = methods.getInputText(input);
+            addPhrase((content.first + content.second));
+        }
+    },[input])
 
     /******************* Rendering ******************* */
     const renderColumn = (key,rowIndex,keyIndex,styles) => {
         let column='r'+rowIndex+'c'+keyIndex;
-        
+        let isActiveLayout = key.className === "buttons" && layout.name === key.text;
         return (<td
             key={`row_${rowIndex}_col_${keyIndex}`}
             colSpan={key.colspan}
-            className={cn(styles.key,{[styles.isActive]: column === currentKey})}
+            className={cn(styles.key,{[styles.activeLayout]: isActiveLayout})}
             onClick={()=> onclick(key,rowIndex,keyIndex)}
         >
             {key.value}
         </td>);
     }
+
     return (
         <div className={styles.keyboard}>
-            <button onClick={()=>{toggleKeyboard()}}>{visible ? "Show Virtual Keybaord" : "Hide Virtual Keybaord"}Keyboard</button>
-            <div className={cn(styles.keysContainer,{[styles.isHidden]: visible})}>
+            <button onClick={()=>{toggleKeyboard()}}>{visibility ? "Show Virtual Keybaord" : "Hide Virtual Keybaord"}Keyboard</button>
+            <div className={cn(styles.keysContainer,{[styles.isHidden]: visibility})}>
                 <table cellSpacing="8">
                     <tbody>
-                        {keyboardKeys.map((row, rowIndex) => (
+                        {layout.keys.map((row, rowIndex) => (
                             <tr key={`row_${rowIndex}`} className={styles.keysRow}>
                                 {row.keys.map((key, keyIndex) => 
                                 (
