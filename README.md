@@ -1,8 +1,35 @@
-# React + Vite
+# Login Page App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+The Login Page App is a web application built with Vite and React. It provides a simple user interface for entering a username and password. It also includes an on-screen keyboard for convenient text input.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+
+- Input fields for username and password.
+- On-screen keyboard for virtual text input.
+- Toggle between uppercase, lowercase, and special characters layouts on the virtual keyboard.
+- Encrypted password input.
+- Sign-in button to submit the login information.
+
+## Getting Started
+
+To run this app locally, follow these steps:
+
+1. Clone the repository:
+
+   ```bash
+   git clone <repository-url>
+
+2. Change to the app's directory:
+    ```bash
+    cd login-page
+
+3. Install dependencies:
+    ```bash
+    npm install
+
+4. Start the development server:
+    ```bash
+    npm run dev
+

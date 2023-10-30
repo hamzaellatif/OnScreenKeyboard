@@ -192,6 +192,7 @@ export const specialChars1 = [
             initKey(7, "", null, null, 1, "empty"),
             initKey(8, "", null, null, 1, "empty"),
             initKey(9, "", null, null, 1, "empty"),
+            initKey(10, "", null, null, 1, "empty"),
             initKey(11, "OK", null, "confirm", 2)]
     }
 ];
